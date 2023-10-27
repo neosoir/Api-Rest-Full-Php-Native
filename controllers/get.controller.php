@@ -4,9 +4,32 @@ require_once "models/get.model.php";
 
 class GetController {
 
+    /**
+     * Get simple database
+     *
+     * @param String $table
+     * @param String $select
+     * @return Object
+     */
     public function getData( $table, $select ) {
 
         $response = GetModel::getData( $table, $select );
+        return $this->fncRespose( $response );
+
+    }
+
+    /**
+     * Get with WHERE sentence.
+     *
+     * @param String $table
+     * @param String $select
+     * @param String $linkTo
+     * @param String $equalTo
+     * @return Object
+     */
+    public function getDataFilter( $table, $select, $linkTo, $equalTo ) {
+
+        $response = GetModel::getDataFilter( $table, $select, $linkTo, $equalTo );
         return $this->fncRespose( $response );
 
     }

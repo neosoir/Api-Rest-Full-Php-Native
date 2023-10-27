@@ -9,8 +9,20 @@ $select     = $_GET['select'] ?? "*";
 
 die; */
 
+/**
+ * Get with filter ( WHERE )
+ */
 $response   = new GetController;
-$response->getData( $table, $select );
+
+if ( isset( $_GET["linkTo"] ) && isset( $_GET["equalTo"] ) ) {
+    $response->getDataFilter( $table, $select, $_GET["linkTo"], $_GET["equalTo"] );
+    
+}
+else {
+
+    $response->getData( $table, $select );
+}
+
 
 
 
