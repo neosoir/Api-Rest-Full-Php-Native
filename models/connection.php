@@ -10,7 +10,7 @@ class Connection {
     public static function infoDatabase() {
 
         $infoDB = [
-            "database"    => "api_1",
+            "database"  => "api_1",
             "user"      => "neo",
             "pass"      => "hi mysql",
         ];
@@ -22,7 +22,7 @@ class Connection {
     /**
      * Database connection.
      *
-     * @return void
+     * @return Object
      */
     public static function connect() {
 
@@ -31,7 +31,7 @@ class Connection {
         try {
             
             $link = new PDO(
-                "mysql:host; dbname=" . $connection["database"],
+                "mysql:host=localhost;dbname=" . $connection["database"],
                 $connection["user"],
                 $connection["pass"]
             );

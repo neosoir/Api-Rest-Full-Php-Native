@@ -3,10 +3,9 @@
 /**
  * Get params of url
  */
-$routes = str_replace( '/api-rest-full', "", $_SERVER["REQUEST_URI"] );
-$routesArray = explode( "/", $routes);
-$routesArray = array_filter( $routesArray );
-
+$routes         = str_replace( '/api-rest-full', "", $_SERVER["REQUEST_URI"] );
+$routesArray    = explode( "/", $routes);
+$routesArray    = array_filter( $routesArray );
 
 /**
  * No requests
@@ -35,12 +34,7 @@ if ( count( $routesArray ) == 1 && isset( $method ) ) {
      */
     if ( $method == "GET" ) {
 
-        $json = [
-            'status' => 200,
-            'result' => 'GET'
-        ];
-        
-        echo json_encode( $json, http_response_code( $json['status'] ) );
+        include "services/get.php";
 
     }
 
