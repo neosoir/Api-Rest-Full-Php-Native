@@ -4,9 +4,9 @@ require_once "models/get.model.php";
 
 class GetController {
 
-    public function getData( $table ) {
+    public function getData( $table, $select ) {
 
-        $response = GetModel::getData( $table );
+        $response = GetModel::getData( $table, $select );
         return $this->fncRespose( $response );
 
     }

@@ -4,9 +4,9 @@ require_once "connection.php";
 
 class GetModel  {
 
-    public static function getData( $table ) {
+    public static function getData( $table, $select) {
      
-        $sql    =   "SELECT * FROM $table";
+        $sql    =   "SELECT $select FROM $table";
         $stmt   =   Connection::connect()->prepare( $sql );
         $stmt->execute();
 
