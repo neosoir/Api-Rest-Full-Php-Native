@@ -11,9 +11,9 @@ class GetController {
      * @param String $select
      * @return Object
      */
-    public function getData( $table, $select ) {
+    public function getData( $table, $select, $orderBy, $orderMode ) {
 
-        $response = GetModel::getData( $table, $select );
+        $response = GetModel::getData( $table, $select, $orderBy, $orderMode );
         return $this->fncRespose( $response );
 
     }
@@ -27,9 +27,9 @@ class GetController {
      * @param String $equalTo
      * @return Object
      */
-    public function getDataFilter( $table, $select, $linkTo, $equalTo ) {
+    public function getDataFilter( $table, $select, $linkTo, $equalTo, $orderBy, $orderMode ) {
 
-        $response = GetModel::getDataFilter( $table, $select, $linkTo, $equalTo );
+        $response = GetModel::getDataFilter( $table, $select, $linkTo, $equalTo, $orderBy, $orderMode );
         return $this->fncRespose( $response );
 
     }

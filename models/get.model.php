@@ -11,9 +11,13 @@ class GetModel  {
      * @param String $select
      * @return Object
      */
-    public static function getData( $table, $select) {
-     
+    public static function getData( $table, $select, $orderBy, $orderMode) {
+
         $sql    =   "SELECT $select FROM $table";
+
+        if ( $orderBy !== null && $orderMode !== null ) 
+            $sql    =   "SELECT $select FROM $table ORDER BY $orderBy $orderMode";            
+        
         $stmt   =   Connection::connect()->prepare( $sql );
         $stmt->execute();
 
@@ -31,7 +35,7 @@ class GetModel  {
      * @param String $equalTo
      * @return Object
      */
-    public static function getDataFilter( $table, $select, $linkTo, $equalTo ) {
+    public static function getDataFilter( $table, $select, $linkTo, $equalTo, $orderBy, $orderMode ) {
 
         $linkToArray    = explode(",", $linkTo );
         $equalToArray   = explode("_", $equalTo );
@@ -48,9 +52,14 @@ class GetModel  {
 
         }
 
-     
         $sql    =   "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText";
+
+        if ( $orderBy !== null && $orderMode !== null ) 
+            $sql    =   "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText ORDER BY $orderBy $orderMode";
+            
         $stmt   =   Connection::connect()->prepare( $sql );
+
+
 
         foreach ($linkToArray as $key => $value) 
             $stmt->bindParam( ":" . $value, $equalToArray[$key], PDO::PARAM_STR );
