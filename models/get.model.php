@@ -11,13 +11,38 @@ class GetModel  {
      * @param String $select
      * @return Object
      */
-    public static function getData( $table, $select, $orderBy, $orderMode) {
+    public static function getData( $table, $select, $orderBy, $orderMode, $startAt, $endAt ) {
 
+        // Simple sentence.
         $sql    =   "SELECT $select FROM $table";
 
-        if ( $orderBy !== null && $orderMode !== null ) 
-            $sql    =   "SELECT $select FROM $table ORDER BY $orderBy $orderMode";            
-        
+        // Order and not limit
+        if  (    
+                ( $orderBy !== null ) 
+                && ( $orderMode !== null ) 
+                && ( $startAt == null ) 
+                && ( $endAt == null ) 
+            ) 
+            $sql    =   "SELECT $select FROM $table ORDER BY $orderBy $orderMode";   
+
+        // Not order and limit
+        if  ( 
+                ( $orderBy == null ) 
+                && ( $orderMode == null ) 
+                && ( $startAt !== null ) 
+                && ( $endAt !== null )
+            ) 
+            $sql    =   "SELECT $select FROM $table LIMIT $startAt,$endAt";  
+                
+        // Order and limit
+        if  ( 
+                ( $orderBy !== null ) 
+                && ( $orderMode !== null ) 
+                && ( $startAt !== null ) 
+                && ( $endAt !== null ) 
+            ) 
+            $sql    =   "SELECT $select FROM $table ORDER BY $orderBy $orderMode LIMIT $startAt,$endAt";  
+
         $stmt   =   Connection::connect()->prepare( $sql );
         $stmt->execute();
 
@@ -35,7 +60,7 @@ class GetModel  {
      * @param String $equalTo
      * @return Object
      */
-    public static function getDataFilter( $table, $select, $linkTo, $equalTo, $orderBy, $orderMode ) {
+    public static function getDataFilter( $table, $select, $linkTo, $equalTo, $orderBy, $orderMode, $startAt, $endAt ) {
 
         $linkToArray    = explode(",", $linkTo );
         $equalToArray   = explode("_", $equalTo );
@@ -52,11 +77,37 @@ class GetModel  {
 
         }
 
+        // Not order not limits
         $sql    =   "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText";
 
-        if ( $orderBy !== null && $orderMode !== null ) 
+        // Order and not limit
+        if  (    
+                ( $orderBy !== null ) 
+                && ( $orderMode !== null ) 
+                && ( $startAt == null ) 
+                && ( $endAt == null ) 
+            ) 
             $sql    =   "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText ORDER BY $orderBy $orderMode";
+          
             
+        // Not order and limit
+        if  ( 
+            ( $orderBy == null ) 
+                && ( $orderMode == null ) 
+                && ( $startAt !== null ) 
+                && ( $endAt !== null )
+            ) 
+            $sql    =   "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText LIMIT $startAt,$endAt ";
+
+                    // Order and limit
+        if  ( 
+                ( $orderBy !== null ) 
+                && ( $orderMode !== null ) 
+                && ( $startAt !== null ) 
+                && ( $endAt !== null ) 
+            ) 
+            $sql    =   "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText ORDER BY $orderBy $orderMode LIMIT $startAt,$endAt ";
+
         $stmt   =   Connection::connect()->prepare( $sql );
 
 
